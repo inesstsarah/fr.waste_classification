@@ -6,8 +6,9 @@ import supervision as sv
 
 model_path = "MODEL_PATH"
 model_path = "yolo11n-seg.pt"
+seg_model_path = "models/taco_seg.pt"
 # Define YOLO model being used
-model = YOLO(model_path)
+seg_model = YOLO(seg_model_path)
 
 st.title("Trash Detection and Classification App")
 
@@ -16,12 +17,17 @@ if img_file_buffer is not None:
     # To read image file buffer with OpenCV:
     bytes_data = img_file_buffer.getvalue()
     cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-    results = model(cv2_img)
+    results = seg_model(cv2_img)
     detections = sv.Detections.from_ultralytics(results[0])
 
     mask_annotator = sv.MaskAnnotator()
+
+    # Convert to RGB
+    rgb_img = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB)
+
+    gbr_img = cv2.COLOR_BGR2RGB
     annotated_frame = mask_annotator.annotate(
-        scene=cv2_img.copy(),
+        scene=rgb_img.copy(),
         detections=detections
     )
     label_annotator = sv.LabelAnnotator(text_position=sv.Position.CENTER)
