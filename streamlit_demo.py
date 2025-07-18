@@ -6,7 +6,7 @@ import supervision as sv
 
 model_path = "MODEL_PATH"
 model_path = "yolo11n-seg.pt"
-seg_model_path = "models/taco_seg.pt"
+seg_model_path = "models/garbage_obj_det.pt"
 # Define YOLO model being used
 seg_model = YOLO(seg_model_path)
 
@@ -19,14 +19,14 @@ if img_file_buffer is not None:
     cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
     results = seg_model(cv2_img)
     detections = sv.Detections.from_ultralytics(results[0])
-
-    mask_annotator = sv.MaskAnnotator()
+    
+    bbox_annotator = sv.BoundingBoxAnnotator()
 
     # Convert to RGB
     rgb_img = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB)
 
     gbr_img = cv2.COLOR_BGR2RGB
-    annotated_frame = mask_annotator.annotate(
+    annotated_frame = bbox_annotator.annotate(
         scene=rgb_img.copy(),
         detections=detections
     )
