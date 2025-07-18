@@ -19,8 +19,8 @@ if img_file_buffer is not None:
     cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
     results = seg_model(cv2_img)
     detections = sv.Detections.from_ultralytics(results[0])
-    
-    bbox_annotator = sv.BoundingBoxAnnotator()
+
+    bbox_annotator = sv.BoxAnnotator()
 
     # Convert to RGB
     rgb_img = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB)
