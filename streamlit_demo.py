@@ -10,7 +10,7 @@ seg_model_path = "models/garbage_obj_det.pt"
 # Define YOLO model being used
 seg_model = YOLO(seg_model_path)
 
-st.title("Trash Detection and Classification App")
+st.title("Sampah Kita AI Waste Classification")
 
 img_file_buffer = st.camera_input("Take a picture")
 if img_file_buffer is not None:
