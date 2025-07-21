@@ -67,8 +67,10 @@ if img_file_buffer is not None:
     class_mapping[3] = "lainnya"
     class_mapping[4] = "kertas"
     class_mapping[5] = "plastik"
-
+    caption = ""
     for i in range (0, len(unique_counts_labels)):
         print(f"{unique_counts_amts[i]} {class_mapping[unique_counts_labels[i]]}")
+        temp = f"{unique_counts_amts[i]} {class_mapping[unique_counts_labels[i]]}"
+        caption += temp
 
-    st.image(annotated_frame, caption="")
+    st.image(annotated_frame, caption=f"{caption}")
